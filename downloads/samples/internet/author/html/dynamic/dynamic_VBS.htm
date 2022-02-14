@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<TITLE>MSDN Online Samples:  Dynamic Styles</TITLE>
+<META NAME="FILENAME" CONTENT="dynamic_VBS.HTM">
+
+
+<STYLE>
+  .bigChange {color:blue; font-weight:bolder; font-size:175%; letter-spacing:4px;  text-transform: uppercase; background:yellow}
+  .start {color:yellow; background:navy}
+  A:link { color:#003399; text-decoration:none; }
+  A:visited { color:#6699CC; text-decoration:none; }
+  A:hover { text-decoration:underline; }
+</STYLE>
+
+<SCRIPT LANGUAGE="VBScript">
+  sub highlightButton (s)
+    window.status = "Running highlight buttons" 
+    if ("INPUT" = window.event.srcElement.tagName) then
+      window.event.srcElement.className = s
+    end if
+  end sub
+</SCRIPT>
+
+</HEAD>
+
+<BODY TOPMARGIN=20 LEFTMARGIN=40 BGCOLOR="#FFFFFF" LINK="#000066" VLINK="#666666" TEXT="#000000">
+<!--TOOLBAR_START-->
+<!--TOOLBAR_EXEMPT-->
+<!--TOOLBAR_END-->
+
+<H2>Dynamic Styles</H2>
+
+<FONT FACE="verdana,arial,helvetica" SIZE=1>
+<A HREF="#" ONCLICK="self.close()"><IMG ALIGN="middle" SRC="demo.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="Click to Close Sample"></A>
+&nbsp;<A HREF="#" ONCLICK="self.close()">Close This Sample</A>
+</FONT>
+<HR>
+
+<P>
+<P>
+<P>
+  
+
+
+<FONT SIZE=4>Move the mouse over &quot;Make this text bigger&quot; below.</FONT>
+
+<P>
+<FONT FACE="verdana,arial,helvetica" SIZE=2>
+  Text can change in size and style at any time! 
+  <span onmouseover = 'me.style.fontSize = "larger"' onmouseout = 'me.style.fontSize =""' style="color:red">Make this text bigger.</span> 
+  Notice how the text automatically reflows.
+</FONT>
+
+<P>
+<FONT FACE="verdana,arial,helvetica" SIZE=2>
+  And one more time&#8212;but use the class attribute: 
+  <SPAN onmouseover = 'me.className = "bigChange"' onmouseout = 'me.className="start"' class=start>Make this text bigger.</SPAN>
+  This page demonstrates how the style can be changed through interactions with the user. This technique makes the Web page more lively and interactive.
+</FONT>
+
+<P>
+<P>
+<P>
+<HR>
+<FONT FACE="MS SANS SERIF" SIZE="1" COLOR="BLACK">
+&copy; <A HREF="http://msdn.microsoft.com/isapi/gomscom.asp?TARGET=/misc/cpyright.htm" TARGET="_top">2000 Microsoft Corporation. All rights reserved. Terms of use</A>.
+</FONT>
+<P>  
+
+</BODY>
+</HTML>
+

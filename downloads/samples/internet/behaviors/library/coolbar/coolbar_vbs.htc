@@ -1,0 +1,241 @@
+<!-- ---------------------------------------------------------------------
+'
+'  Copyright 1998 Microsoft Corporation.  All Rights Reserved.
+'
+'  File:         coolbutton_vbs.htc
+'
+'  Description:  The coolbar behavior allows web authors to easily add 
+'                Explorer-style menus to their web pages and applications. 
+'
+'-------------------------------------------------------------------- -->
+
+<PROPERTY NAME="SizeAll"      /> 
+<PROPERTY NAME="ButtonWidth"  />
+<PROPERTY NAME="ButtonHeight" />
+
+<METHOD   NAME="DoSizeAll"    />
+	
+
+<SCRIPT LANGUAGE="VBScript">
+
+'+----------------------------------------------------------------------------
+'
+'  Global Variables       
+'
+'-----------------------------------------------------------------------------
+
+dim buttonReady , iWidth, iHeight
+buttonReady = 0            ' Tracks the number of buttons that have
+                           ' been initialized
+                                
+iWidth = 0                 ' Tracks global width of buttons
+iHeight = 0                ' Tracks global height of buttons
+
+
+' Set visibility to hidden while the coolbar is formatted
+style.visibility = "hidden"
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       SetDefaults
+'
+'  Description:    Called during the initialization of the behavior.  Sets
+'                  the defaults for regular CSS properties (the
+'                  NormalDefault() function), and attribute/properties, and
+'                  attaches events.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub SetDefaults()
+
+    '  CSS Property Defaults   
+    NormalDefault "backgroundColor", "#ffffff", "menu"
+    style.visibility = "visible"
+    attachEvent "onpropertychange", GetRef("DoPropChange")
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       NormalDefault
+'
+'  Description:    Sets the defaults for CSS properties by checking the
+'                  currentStyle and style of the object against the IE
+'                  default.
+'
+'  Arguments:      sCSSName - the CSS name of the property
+'                  sIEDefault - the IE standard default of the property
+'                  sDefault - the desired default of the property
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub NormalDefault(sCSSName, sIEDefault, sDefault)
+    on error resume next
+    err.clear
+    test = style(sCSSName)
+    if err.number <> 0 then 
+		test = true 
+	else
+		test = false
+	end if
+	on error goto 0 
+		
+    'if (currentStyle(sCSSName) = sIEDefault AND (style(sCSSName) = "" OR isnull (style(sCSSName)) )) then
+    ' !!! May need better nonexistence check..
+    if (currentStyle.getAttribute(sCSSName) = sIEDefault AND (style.getAttribute(sCSSName) = "" OR test )) then
+        Call style.setAttribute(sCSSName, sDefault)
+    else 
+		Call style.setAttribute(sCSSName, currentStyle.getAttribute(sCSSName))
+	end if
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoPropChange
+'
+'  Description:    Handles property changes on CSS and regular property/
+'                  attributes.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub DoPropChange()
+    propertyName = window.event.propertyName
+    
+    if (propertyName = "ButtonWidth") then
+        iWidth = ButtonWidth
+        SizeButtons(true)
+    end if
+    
+    if (propertyName = "ButtonHeight") then
+        iHeight = ButtonHeight
+        SizeButtons(true)
+    end if
+    
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoSizeAll
+'
+'  Description:    This function is called from each child coolbutton when
+'                  the button is finished initializing.  Once all of the 
+'                  buttons that are children of this element are initialized,
+'                  functions are called to properly size each button.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub DoSizeAll()
+    buttonReady = buttonReady + 1
+	' !!! May need to use eval statment here..
+    if (buttonReady = element.all.urns("cb").length) then
+        if (SizeAll = "true" OR SizeAll = true) then
+			GetBiggest()
+		end if
+        Call SizeButtons(true)
+        SetDefaults()
+    end if
+end sub
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       GetBiggest
+'
+'  Description:    Finds the widest button and the tallest button.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub GetBiggest()
+    '  Get the collection of coolbutton's in this element
+    dim oButtons, i
+
+    Set oButtons = element.all.urns("cb")
+
+    for i = 0 to oButtons.length - 1 
+        if (oButtons(i).offsetWidth > iWidth) then
+            iWidth = oButtons(i).offsetWidth
+        end if
+        if (oButtons(i).offsetHeight > iHeight) then
+            iHeight = oButtons(i).offsetHeight
+        end if
+    next
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       SizeBar
+'
+'  Description:    Set the size of the element.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub SizeBar()
+    style.width = offsetWidth _
+        + CInt(Left(currentStyle.paddingLeft, Len(currentStyle.paddingLeft)-2)) _
+        + CInt(Left(currentStyle.paddingRight, Len(currentStyle.paddingLeft)-2))
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       SizeButtons
+'
+'  Description:    Set the size of each child button of this element.
+'
+'  Arguments:      bRuntime - true when the function is being called at runtime
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub SizeButtons(bRunTime)
+    '  Get the collection of coolbutton's in this element
+    dim oButtons, i
+    Set oButtons = element.all.urns("cb")
+
+    '  Set the width of the coolbar to "auto"
+    style.width = "auto"
+
+    for i = 0 to oButtons.length - 1 
+        '  If SizeAll is false, each button is sized according to its contents
+        if (SizeAll <> "true" AND SizeAll <> true AND NOT(bRunTime)) then
+            iWidth = oButtons(i).offsetWidth
+            iHeight = oButtons(i).offsetHeight
+        end if
+ 
+        '  Format the size of the button
+        oButtons(i).style.width = iWidth
+        oButtons(i).style.height = iHeight
+    next
+    
+    '  Call SizeBar() to set the width of the bar based on the new button sizes
+    SizeBar()
+end sub
+
+
+</SCRIPT>

@@ -1,0 +1,77 @@
+<!--TOOLBAR_START--><!--TOOLBAR_EXEMPT--><!--TOOLBAR_END-->
+<html>
+<head>
+<TITLE>Behavior Library: Sound Rollover</TITLE>
+
+<style>
+.SoundRollover { behavior : url(soundRollover_vbs.htc) ;
+                 font-family : Arial ;
+                 font-size : 24pt ;
+                 color : black ;
+                 padding : 5 ;
+                 width : 100% ; 
+                 cursor : hand ;
+                 text-align : center ;
+                 font-weight : bold ;
+                }
+A:link { color:#003399; text-decoration:none; }
+A:visited { color:#6699CC; text-decoration:none; }
+A:hover { text-decoration:underline; }
+</style>
+
+<script>
+
+function BodyOnClick()
+{
+  e = window.event.srcElement
+  if (e.tagName == "DIV")
+  {
+    e.style.color = (e.currentStyle.color == 'black') ? 'white' : 'black'
+  }
+}
+
+</script>
+
+</head>
+
+<body onclick="BodyOnClick()">
+<bgsound id=x>
+
+<h2>Sound Rollover</h2>
+<P>
+<FONT FACE="verdana,arial,helvetica" SIZE=1>
+<A href="#" onclick=self.close()><IMG ALIGN="middle" SRC="demo.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="demo.gif"></A>
+&nbsp;<A href="#" onclick=self.close()>Close This Sample</A> 
+</FONT><hr>
+
+<table border=0 cellpadding=20 width="100%">
+  <tr>
+    <td width="50%">
+      <div class="SoundRollover" style="background-color : #FF3000" hoverSound="whoosh.wav" pressedSound="chitty.wav">Internet</div>
+    </td>
+    
+    <td width="50%">
+      <div class="SoundRollover" style="background-color : #63CF31" hoverSound="whoosh.wav" pressedSound="chitty.wav">Explorer</div>
+    </td>
+  </tr>
+      
+  <tr>
+    <td width="50%">
+      <div class="SoundRollover" style="background-color : #009AFF" hoverSound="whoosh.wav" pressedSound="chitty.wav">Behavior</div>
+    </td>
+    
+    <td width="50%">
+      <div class="SoundRollover" style="background-color : #FFCF00" hoverSound="whoosh.wav" pressedSound="chitty.wav">Technology</div>
+    </td>
+  </tr>
+</table>
+
+<p>
+<hr>
+<FONT FACE="MS SANS SERIF" SIZE="1" COLOR="BLACK">
+&copy; <A HREF="http://msdn.microsoft.com/isapi/gomscom.asp?TARGET=/misc/cpyright.htm" TARGET="_top">1999-2000 Microsoft Corporation. All rights reserved. Terms of use</A>.
+</FONT>
+<p>
+
+</body>
+</html>

@@ -1,0 +1,602 @@
+<HTC URN="cb">
+
+<!-- ---------------------------------------------------------------------
+'
+'  Copyright 1998 Microsoft Corporation.  All Rights Reserved.
+'
+'  File:         coolbutton_vbs.htc
+'
+'  Description:  The coolbar behavior allows web authors to easily add 
+'                Explorer-style menus to their web pages and applications. 
+'
+'-------------------------------------------------------------------- -->
+
+<PROPERTY NAME="image"      />
+<PROPERTY NAME="hoverImage" />
+<PROPERTY NAME="group"      />
+<PROPERTY NAME="type"       />
+<PROPERTY NAME="state"      />
+<PROPERTY NAME="title"      />
+<PROPERTY NAME="href"       />
+<PROPERTY NAME="target"     />
+    
+<METHOD   NAME="DoMouseUp"  />
+<METHOD   NAME="DoMouseOut"  />
+
+<EVENT    NAME="onerror"    ID="error"    />
+    
+<ATTACH EVENT="onmouseover"     onevent="DoMouseOver()" />
+<ATTACH EVENT="onmouseout"      onevent="DoMouseOut()"  />
+<ATTACH EVENT="onmousedown"     onevent="DoMouseDown()" />
+<ATTACH EVENT="onmouseup"       onevent="DoMouseUp(Boolean)"   />
+<ATTACH EVENT="ondocumentready" onevent="DoInit()"      />
+<ATTACH EVENT="onselectstart"   onevent="DoSelect()"    />
+
+
+<SCRIPT LANGUAGE="VBScript">
+
+
+'+----------------------------------------------------------------------------
+'
+'  Global Variables
+'
+'-----------------------------------------------------------------------------
+
+dim bImg                        ' Tracks if the button has an image
+
+dim normColor                   '
+dim normBackground              '
+dim normBorder                  ' variables to track the regular state
+dim normPadLeft                 '    of these properties (as they change
+dim normPadRight                '    during the various events)
+dim normPadTop                  '
+dim normPadBottom               '
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoInit
+'
+'  Description:    Calls functions and attaches events to initialize behavior.
+'                  The DoSizeAll() function is a method of the parent coolbar
+'                  behavior that helps coordinate the sizing of the buttons.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub DoInit()
+	FormatImage() 
+    SetDefaults() 
+	SetNormal() 
+
+	parentElement.DoSizeAll() 
+	
+    Call attachEvent("onpropertychange", GetRef("DoPropChange"))
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       SetDefaults
+'
+'  Description:    Called during the initialization of the behavior.  Sets
+'                  the defaults for custom CSS properties (calls the
+'                  CustomDefault() function), regular CSS properties (the
+'                  NormalDefault() function), and attribute/properties.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub SetDefaults()
+
+    '  CSS Property Defaults   
+    NormalDefault "padding",	     "0px",		        "3px"  
+    NormalDefault "margin",		     "null",	        "3px"  
+    NormalDefault "fontSize",		 "12",	            "10pt"  
+    NormalDefault "fontFamily",      "Times New Roman", "MS Sans Serif"  
+    NormalDefault "color",		     "black",	        "menutext"  
+    NormalDefault "backgroundColor", "transparent",	        "menu"  
+    NormalDefault "cursor",		     "auto",            "default"  
+    
+    if  currentStyle.height = "auto"  then style.height = GetHeight   
+	if  currentStyle.width = "auto"   then style.width  = GetWidth   
+	
+	'  Custom CSS Property Defaults
+    CustomDefault "cb--border-width", "cbBorderWidth", "1px"  
+    CustomDefault "cb--border-style", "cbBorderStyle", "solid"  
+    CustomDefault "cb--hover-color", "cbHoverColor", style.color  
+    CustomDefault "cb--hover-background", "cbHoverBackground", style.backgroundColor  
+    CustomDefault "cb--hover-border", "cbHoverBorder", "threedhighlight threedshadow threedshadow threedhighlight"  
+    CustomDefault "cb--selected-background", "cbSelectedBackground", "buttonhighlight"  
+    CustomDefault "cb--selected-border", "cbSelectedBorder", "threedshadow threedhighlight threedhighlight threedshadow"  
+	
+	style.textAlign = currentStyle.textAlign 
+	style.borderColor = style.backgroundColor 
+	style.borderStyle = style.cbBorderStyle 
+	style.borderWidth = style.cbBorderWidth 
+	
+    '  Attribute | Property Defaults
+    if (isnull(me.type) OR me.type = "") then me.type = "button" 
+    state = false
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       CustomDefault
+'
+'  Description:    Sets the defaults for custom CSS properties and establishes
+'                  a scriptable name for the property
+'
+'  Arguments:      sCSSName - the CSS name of the property
+'                  sScriptName - the desired Scriptable name of the property
+'                  sDefault - the desired default value
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub CustomDefault(sCSSName, sScriptName, sDefault)
+
+    on error resume next
+    err.clear
+    styleExists = currentStyle(sCSSName)
+    styleExists = (err.number = 0)
+    on error goto 0 
+    
+    if NOT styleExists then
+        Call style.setAttribute(sCSSName, sDefault)
+    else 
+		Call style.setAttribute(sCSSName, currentStyle.getAttribute(sCSSName))
+    end if
+    
+    Call style.setAttribute(sScriptName, style.getAttribute(sCSSName))
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       NormalDefault
+'
+'  Description:    Sets the defaults for CSS properties by checking the
+'                  currentStyle and style of the object against the IE
+'                  default.
+'
+'  Arguments:      sCSSName - the CSS name of the property
+'                  sIEDefault - the IE standard default of the property
+'                  sDefault - the desired default of the property
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+sub NormalDefault(sCSSName, sIEDefault, sDefault)
+
+	on error resume next
+    err.clear
+    styleExists = style(sCSSName)
+    styleExists = (err.number = 0)
+    on error goto 0 
+    
+    if NOT styleExists AND currentStyle.getAttribute(sCSSName) = sIEDefault then
+		Call style.setAttribute(sCSSName, sDefault)
+    else 
+       if (currentStyle.getAttribute(sCSSName) = sIEDefault AND (style.getAttribute(sCSSName) = "" OR style.getAttribute(sCSSName) = "")) then 
+           Call style.setAttribute(sCSSName, sDefault)
+		else 
+		   Call style.setAttribute(sCSSName, currentStyle.getAttribute(sCSSName))
+	   end if
+	end if 
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoPropChange
+'
+'  Description:    Handles property changes on CSS and regular property/
+'                  attributes.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub DoPropChange()
+    propertyName = window.event.propertyName 
+
+    select case propertyName
+        case "image"                    
+            eval("img_" & uniqueID).src = image 
+    end select
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       FormatImage
+'
+'  Description:    If the button has an image specified, this function adds
+'                  the necessary HTML to the page.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub FormatImage()
+
+    bImg = (image <> "") 
+    if (bImg) then
+    
+        sInsertImg = "<IMG ID='img_" & uniqueID & "' SRC='" & image & "'><BR>" 
+        call insertAdjacentHTML("AfterBegin", sInsertImg) 
+    end if
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       SetNormal
+'
+'  Description:    Sets the global variables that track the regular state
+'                  of a handful of CSS properties.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub SetNormal()
+	if (NOT state) then
+	    normBackground = style.backgroundColor 
+        normBorder = style.borderColor 
+        normColor = style.color 
+    
+        normPadLeft = parseInt(currentStyle.paddingLeft) 
+        normPadRight = parseInt(currentStyle.paddingRight) 
+        normPadTop = parseInt(currentStyle.paddingTop) 
+        normPadBottom = parseInt(currentStyle.paddingBottom) 
+    end if
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       GetHeight
+'
+'  Description:    Sets the default height of the button.
+'
+'  Arguments:      none
+'
+'  Returns:        parentElement.ButtonHeight if it exists
+'                  currentStyle.height if it is explicitly specified
+'                  "1px" if neither of the above are true
+'
+'-----------------------------------------------------------------------------
+
+function GetHeight()
+    if (parentElement.ButtonHeight <> "") then GetHeight = parentElement.ButtonHeight 
+    if (currentStyle.height <> "auto") then GetHeight = currentStyle.height 
+    GetHeight = "1px" 
+end function
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       GetWidth
+'
+'  Description:    Sets the default width of the button.
+'
+'  Arguments:      none
+'
+'  Returns:        parentElement.ButtonWidth if it exists
+'                  currentStyle.width if it is explicitly specified
+'                  "1px" if neither of the above are true
+'
+'-----------------------------------------------------------------------------
+
+function GetWidth()
+    if (parentElement.ButtonWidth <> "") then
+		GetWidth = parentElement.ButtonWidth 
+    elseif (currentStyle.width <> "auto") then
+		GetWidth = currentStyle.width 
+    else
+		GetWidth = "1px"   
+	end if
+end function
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       CheckGroup
+'
+'  Description:    If a check button is part of a group, when that button is
+'                  pushed, any other buttons should be released.  This function
+'                  iterates through such buttons and releases them.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub CheckGroup()
+    '  The collection of coolbutton's in this element's parent coolbar
+    Set oCoolBar = element.parentElement.all.urns("cb") 
+
+    '
+    '  Iterate through the buttons in this coolbar and check if they are in
+    '  this group.
+    '    
+    for i = 0 to oCoolBar.length - 1
+        if (oCoolBar(i).group <> "" AND Not oCoolBar(i) Is element) then
+            '  If the button is selected and part of this group, unselect it
+            if (oCoolBar(i).group = group AND oCoolBar(i).state) then
+                oCoolBar(i).DoMouseUp(true) 
+                oCoolBar(i).DoMouseOut() 
+            end if
+        end if
+    next
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoHref
+'
+'  Description:    Open the HREF into the TARGET.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub DoHref()
+
+    select case target
+    
+        case "_self"
+			window.document.location.href = href 
+                               
+        
+        case "_top"
+			window.top.location.href = href 
+                               
+        
+        case "_parent"
+			window.parent.location.href = href 
+                               
+        
+        case "_blank"
+			Call window.open(href, target) 
+                               
+        case else
+			FindTarget() 
+                               
+    end select
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       FindTarget
+'
+'  Description:    Take the TARGET property and determine whether it is
+'                  a separate frame or window, or an element.  Open the
+'                  HREF into that TARGET.
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+function FindTarget()
+
+    if (target = "") then
+        Call window.open(href, "_blank") 
+        FindTarget = true 
+    end if
+
+    '  Is there a frames collection and is this one of them?
+    if (window.top.frames.length > 1) then
+    
+        for i = 0 to window.top.frames.length - 1
+            if (window.top.frames(i).name = target) then
+                window.top.frames(i).src = href 
+                FindTarget = true 
+            end if
+        next
+    end if
+
+    for i = 0 to window.frames.length - 1
+        if (window.frames(i).name = target) then
+            window.frames(i).document.location.href = href 
+            FindTarget = true 
+        end if
+    next
+    
+    Call window.open(href, target) 
+end function
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoMouseOver
+'
+'  Description:    Adds necessary formatting for mouseover event
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub DoMouseOver()
+    '  Capture the mouse
+    setCapture(true) 
+
+    '  Call SetNormal() to record default properties before they are changed
+    SetNormal() 
+
+    '  Format the button for the mouseover
+    if ((me.type = "check" AND NOT state) OR me.type <> "check")  then
+        if (bImg) then eval("img_" & uniqueID).src = hoverImage 
+        style.color = style.cbHoverColor 
+	    style.borderColor = style.cbHoverBorder 
+    end if
+	style.background = style.cbHoverBackground 
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoMouseOut
+'
+'  Description:    Removes formatting applied in mouseover event
+'
+'  Arguments:      none
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub DoMouseOut()
+    '  Remove formatting
+    if ((me.type = "check" AND NOT state) OR me.type <> "check") then
+        if (bImg) then eval("img_" & uniqueID).src = image 
+	    style.color = normColor 
+	    style.borderColor = normBorder 
+	    style.background = normBackground 
+	else
+        style.background = style.cbSelectedBackground 
+    end if
+    '  Release the mouse
+    releaseCapture() 
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoMouseDown
+'
+'  Description:    Adds necessary formatting for mousedown event
+'
+'  Arguments:      none
+'
+'  Returns:        false if this is a check button and state is true
+'
+'-----------------------------------------------------------------------------
+
+function DoMouseDown()
+    if (me.type = "check" AND state) then
+        state = false 
+        DoMouseDown = false 
+        Exit Function
+    else
+		if (me.type = "check") then state = true 
+    end if
+    
+    '  Format the button for the mousedown
+    style.paddingLeft = normPadLeft + 1 
+    if normPadRight - 1 < 0 then style.paddingRight = 0 else style.paddingRight = normPadRight - 1
+    style.paddingTop = normPadTop + 1 
+    if normPadBottom - 1 < 0 then style.paddingBottom = 0 else style.paddingBottom = normPadBottom - 1
+    style.background = style.cbSelectedBackground 
+    style.borderColor = style.cbSelectedBorder 
+    
+    '  If this is a check button and part of a group, call CheckGroup()
+    if (group <> "" AND me.type = "check") then CheckGroup() 
+    
+    '  If this button has an HREF, call DoHref to perform it.
+   	if (href <> "") then DoHref() 
+end function
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoMouseUp
+'
+'  Description:    Removes formatting applied in mousedown event
+'
+'  Arguments:      bGroup - is the function being called as a result of
+'                      another button in the same group being selected
+'
+'  Returns:        false if this is a check button and state is true
+'
+'-----------------------------------------------------------------------------
+
+function DoMouseUp(bGroup)
+    if (bGroup <> true) then
+        if (me.type = "check" AND state) then
+            state = true 
+            DoMouseUp = false 
+        else 
+			if (me.type = "check") then state = false 
+        end if
+    else 
+		state = false
+	end if 
+
+    '  Remove formatting
+    style.paddingLeft = normPadLeft 
+    style.paddingRight = normPadRight 
+    style.paddingTop = normPadTop 
+    style.paddingBottom = normPadBottom 
+    if bGroup = true then style.borderColor = normBorder else style.borderColor = style.cbHoverBorder
+    if bGroup = true then style.background = normBackground else style.background = cbHoverBackground
+end function
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       DoSelectStart
+'
+'  Description:    Cancels the onselectstart event to prevent user from
+'                  selecting text in the slider.
+'
+'  Arguments:      none
+'
+'  Returns:        false (returnValue)
+'
+'+----------------------------------------------------------------------------
+
+sub DoSelect()
+    window.event.cancelBubble = true 
+    window.event.returnValue = false    
+end sub
+
+
+'+----------------------------------------------------------------------------
+'
+'  Function:       ReturnError
+'
+'  Description:    Fires the error event, along with a descriptive text
+'                  message.
+'
+'  Arguments:      sMsg - descriptive text message
+'
+'  Returns:        nothing
+'
+'-----------------------------------------------------------------------------
+
+sub ReturnError(sMsg)
+    oEvent = createEventObject
+    oEvent.setAttribute "error", sMsg 
+    error.fire oEvent
+end sub
+
+
+</SCRIPT>
+
+</HTC>

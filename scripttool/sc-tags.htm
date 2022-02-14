@@ -1,0 +1,313 @@
+<html>
+<head>
+<title>ANTHILL Scripter 1.1</title>
+
+
+
+<script language="javascript">
+
+
+var nl = getNewLine()
+
+function getNewLine() {
+	var agent = navigator.userAgent
+
+	if (agent.indexOf("Win") >= 0)
+		return "\r\n"
+	else
+		if (agent.indexOf("Mac") >= 0)
+			return "\r"
+
+  	return "\n"
+
+}
+
+function getInput(func, form) {
+	var text = form.body.value
+
+	if (document.forms[0].mode[0])
+			var mode = 0 
+
+	if (func == 1)
+		text += outline(mode)
+
+	form.body.value = text
+}
+
+function getFlex()
+	{
+	msg = 'For automatic creation of '+
+		' JavaScript / HTML / DHTML / Java / ASP ...and more,'+
+		' \nclick OK and test the WEBFLEX suite of page creation tools FREE    (Internet connection required)'+
+		' \n\n\t\t                  WEBFLEX\n\t\t         (Netscape 3+ or MSIE 4)'+
+		'\n\nPalace Multimedia\'s Webflex offers a wide array of webpage functions and wizard guidence'+
+		' for quick, dynamic webpage creation. \n\n\t\t\tTEST IT TODAY!'
+ 
+action=confirm(msg)
+
+	if (action==true)
+	top.location.href='http://www.apo.com.au/webflex/'
+	if (action==false)
+	''
+	}
+
+function outline(mode) {
+	var ind = document.forms[0].select1.selectedIndex
+	
+  	if (ind == 0)
+			{
+			alert(' ANTHILL Scripter 1.0 /nCreated by Palace Multimedia/nAll Rights Reserved 1997-2000 ')
+			return ""
+			}
+
+
+   	if (ind == 1)
+			return "" 
+
+
+<!--Open a New Window-->
+
+	if (ind ==2)
+			{
+			alert("The script should be placed in the head and the link to the script placed in the body ")
+			var prompt1 = prompt("Function name:", "openWindow")
+			prompt1 = (prompt1) ?  prompt1 : ""
+			var prompt2 = prompt("Enter the URL intended for this window:", "a_page.htm")
+			prompt2 = (prompt2) ?  "\("+"\""+prompt2+"\"," : ""
+			var prompt3 = prompt("Window target name:", "")
+			prompt3 = (prompt3) ?  prompt3 : ""
+			var prompt4 = prompt("Adjust these window variables:", "height=200,width=400,scrollbars=yes,resizable=yes")
+			prompt4 = (prompt4) ?  "\""+prompt4 : ""
+			var prompt5 = prompt("Remove unnecessary window functions:", "status,menubar,toolbar,location")
+			prompt5 = (prompt5) ?  "\,"+prompt5 : ""
+			var prompt7 = prompt("Enter description to appear in Status bar:", "View this page")
+			prompt7 = (prompt7) ?  " onMouseOver="+"\"window.status='"+prompt7+" ';return true"+"\"" : ""
+			var prompt6 = prompt("Enter description of link:", "click here")
+			prompt6 = (prompt6) ?  "<a href="+"\""+"javascript"+"\:"+prompt1+"\()"+"\""+prompt7+">"+prompt6+"</a>" : ""
+			return "<script language="+"\""+"javascript"+"\""+">"+nl+nl+"function "+prompt1+"()"+nl+"\	{"+nl+"	open "
+			+prompt2+"\""+prompt3+"\","+prompt4+prompt5+"\")"+nl+"\	}"+nl+"</"+"script>"+nl+nl+prompt6+nl
+			}
+
+
+
+<!--Close Window-->
+
+	if (ind == 3)
+			{
+			var prompt1 = prompt("Enter the button message", "Close Window")
+			prompt1 = (prompt1) ?  prompt1:""
+			return "<form>"+nl+"<input type="+"\""+"button"+"\""+" value="+"\""+prompt1+"\""+
+			" onClick="+"\""+"window.close()"+"\""+">"+nl+"</form>"
+			}
+ 
+
+
+	if (ind == 4)
+			return''
+
+<!--Forward in browser history-->
+
+	if (ind ==5)
+			{
+			alert("This tag should be inserted in the body")
+			var prompt1 = prompt("Enter discription of link:", "Go Forward")
+			prompt1 = (prompt1) ?  prompt1 : ""
+			var prompt2 = prompt("Enter description to appear in status bar:", "Go forward in history")
+			prompt2 = (prompt2) ?  " onMouseOver="+"\"window.status='"+prompt2+" ';return true"+"\"" : ""
+			return "<a href="+"\""+"javascript"+"\:"+"history.forward()"+"\""+prompt2+">"+prompt1+"</a>" +nl
+			}
+
+
+
+<!--Back in browser history-->
+
+	if (ind ==6)
+			{
+			alert("This tag should be inserted in the body")
+			var prompt1 = prompt("Enter discription of link:", "Go Back")
+			prompt1 = (prompt1) ?  prompt1 : ""
+			var prompt2 = prompt("Enter description to appear in status bar:", "Go back in history")
+			prompt2 = (prompt2) ?  " onMouseOver="+"\"window.status='"+prompt2+" ';return true"+"\"" : ""
+			return "<a href="+"\""+"javascript"+"\:"+"history.back()"+"\""+prompt2+">"+prompt1+"</a>" +nl
+			}
+
+
+<!--Auto Page Turn-->
+
+	if (ind == 7)	
+			{
+			alert("This tag should be inserted in the head. It won't function until saved in your document")
+			var prompt1 = prompt("Enter the amount of seconds before page changes:", "15")
+			prompt1 = (prompt1) ?  "http-equiv="+"\""+"refresh"+"\"" + " content="+"\""+prompt1+"" : ""
+			var prompt2 = prompt("Enter destination URL:", "next_doc.html")
+			prompt2 = (prompt2) ?  " URL="+prompt2+"\"" : ""
+			return "<meta "+prompt1+";"+prompt2 +">"+nl
+			}
+
+	if (ind == 8)
+			return''
+
+<!--Status Text Link Description-->
+
+	if (ind == 9)	
+			{
+			alert("This script should be placed after the URL in your link tag")
+			var prompt1 = prompt("Enter description to appear in status bar:", "")
+			prompt1 = (prompt1) ?  " onMouseOver="+"\"window.status='"+prompt1+" ';return true"+"\"": ""
+			return prompt1
+			}
+
+
+<!--Status Bar Text-->
+
+	if (ind == 10)	
+			{
+			alert("This script should be placed in the head and the last line placed in the body tag")
+			var prompt1 = prompt("Enter a discription for the status bar:", "Welcome to my webpage")
+			prompt1 = (prompt1) ?  prompt1: ""
+             		return"<script language="+"\""+"javascript"+"\">"+nl+nl+"function statusName()"+nl+"\	{"+nl+ 
+			"	window"+"\.status='"+prompt1+"\';"+nl+"\	}"+nl+"</"+"script>"+nl+nl+"<body onLoad="+"\""+"statusName()"+"\""+">"
+			}
+
+
+
+<!--Status Bar Scroll-->
+
+	if (ind == 11)	
+			{
+			alert("This script should be placed in the head and the last line placed in the body tag")
+			var prompt1 = prompt("Enter Text:", "")
+			prompt1 = (prompt1) ?  "<script language="+"\""+"javascript"+"\">"+nl+nl+"var str="+"\""+"\""+nl+nl+
+			"function setMessage()"+nl+nl+"{"+nl+nl+"    if (str == "+"\""+"\""+")"+nl+nl+"    {"+nl+nl+
+			"        for (var ii = 0; ii < 120; ii += 10) {str = str + "+"\""+"          \""+"}"+nl+
+			"        str = str + "+"\""+prompt1+"\""+nl+nl+"    }"+nl+nl+"    else"+nl+nl+"    {"+nl+nl+
+			"        str = str.substring(2, str.length)"+nl+nl+"    }"+nl+nl+"    window.status = str"+nl+nl+
+			"    JSCTimeOutID = window.setTimeout('setMessage()',100)"+nl+nl+"}"+nl+nl+
+			"<"+"\/"+"script>"+nl+nl:""
+			return prompt1+"<body onload="+"\""+"JSCTimeOutID = window.setTimeout('setMessage()',500);"+"\""+">"
+			}
+
+
+
+
+<!--Status Bar Slide-->
+
+	if (ind == 12)	
+			{
+			alert("This script should be placed in the head and the last line placed in the body tag")
+			var prompt1 = prompt("Enter a Scroll speed from 10 and above", "10")
+			prompt1 = (prompt1) ?  prompt1:""
+			var prompt2 = prompt("Enter Text:", "")
+			prompt2 = (prompt2) ?  "<script language="+"\""+"javascript"+"\">"+nl+nl+
+			"var init_msg = "+"\""+prompt2+"\""+nl+ "var str = "+"\""+"\""+nl+ "var msg= "+"\""+"\""+ 
+			nl+"var leftmsg = "+"\""+"\""+nl+ "function setMessage()"+nl+"\{"+nl+"	if "+"(msg == "+"\""+"\""+")"+nl+"\	{"+nl+ 
+ 			"		str = "+"\""+" \""+nl+"		msg = init_msg"+nl+"		leftmsg = "+"\""+"\""+nl+"\	}"+nl+"	if (str.length == 1) "+nl
+			+"\	{"+nl+"		while (msg.substring(0, 1) == "+"\""+" \""+")"+nl+"\		{"+nl+"			leftmsg = leftmsg "+"\+ str"+nl
+			+"			str = msg.substring(0, 1)"+nl+ 	"			msg = msg.substring(1, msg.length)"+nl+"\	}"+ nl+
+			"		leftmsg = leftmsg "+"\+ str"+nl+"		str = msg.substring(0, 1)"+nl+
+        		"		msg = msg.substring(1, msg.length)"+nl+" 		for (var ii = 0; ii < "+prompt1+"\; ii++) "+nl
+			+"\			{str = "+"\""+" \""+" + str}"+nl+
+             		"				}"+nl+"	else"+nl+"	{"+nl+"		str = str.substring(10, str.length) "+nl+"	}"+nl+
+			"	window.status = leftmsg + str"+nl+
+		    	"	JSCTimeOutID = window.setTimeout('setMessage()',100)"+nl+"\}"+nl+ nl+
+			"<"+"\/"+"script>"+nl+nl:""
+			return prompt2+"<body onload="+"\""+"JSCTimeOutID = window.setTimeout('setMessage()',500);"+"\""+">"
+			}
+
+	if (ind == 13)
+			return''
+
+<!--Last Modified-->
+
+ 	if (ind == 14)
+			{
+			alert("This script can be placed anywhere in the body but not inside a table cell. It may not produce an accurate reading until the webpage that contains it is saved and then opened in the browser.")
+			return "Last Modified"+nl+nl+"<script language="+"\""+"javascript"+"\">"+nl+nl+
+			"		document.write(document.lastModified)"+nl+nl+"</"+"script>"+nl
+			}
+
+<!--Hide from Cache-->
+
+ 	if (ind == 15)
+			{
+			alert("This tag is place in the head and will stop the viewers browser cache from storing the webpage. Useful for constantly updated webpages.")
+			return '<meta http-equiv="pragma" content = "no-cache"> '
+			}
+
+	if (ind == 16)
+			return''
+
+<!--Javascript Alert-->
+
+ 	if (ind == 17)
+			{
+			alert("The hypertext link has been placed in this script for viewing convenience only. If your message contains an apostrophe, you will need to change the apostrophes surrounding your message to inverted commas and strip the hypertext link from around the alert.")
+			var prompt1 = prompt("Enter the alert message", "")
+			prompt1 = (prompt1) ?  prompt1:""
+			return '<a href="javascript:alert('+"'"+prompt1+"'"+')" onMouseOver="window.status='+"'"+'Click to view alert'+"'"+';return true">Click here</a>'
+			} 
+
+
+	if (ind == 18)
+			return''
+
+
+  	if (ind == 19)
+	{
+	getFlex()
+	return ''
+	}
+}
+
+</script>
+
+</head>
+
+
+<body  onLoad="focus()" background="bg_02.gif" bgcolor="000000" text=cccccc>
+
+<form>
+
+<table height=100%><tr><td valign=top>
+
+<img src="linearro.gif">
+
+</td><td valign=top>
+<input name="mode" type="HIDDEN">
+
+<select name="select1" onChange="getInput(1, opener.document.forms[0])" style="background-color:333333;color:ffffff;font-family:Arial;font-size:10pt;width:150;height:20;">
+
+           <option '0' >JavaScript
+           <option '1' >--------------------------------
+           <option '2' >Open New Window 
+           <option '3' >Close Window
+           <option '4'>--------------------------------
+           <option '5' >Go Forward 
+           <option '6' >Go Back 
+           <option '7' >Auto Page Turn
+           <option '8'>--------------------------------
+           <option '9'>Status Link Description
+           <option '10'>Status Text Description
+           <option '11'>Status Text Scroll
+           <option '12'>Status Text Slide
+           <option '13'>--------------------------------
+           <option '14'>Last Modified
+           <option '15'>No Cache
+           <option '16'>--------------------------------
+           <option '17'>Javascript Alert
+           <option '18'>--------------------------------
+           <option '19'>WEBFLEX
+
+
+ 
+        </select>
+ 
+        <input type="BUTTON" value="YES" onclick="getInput(1,opener.document.forms[0])" style="background-color:333333;color:ffffff;font-family:Arial;font-size:10pt;width:50;height:22;">
+
+</form>
+
+</td></tr></table>
+
+
+</body>
+</html>

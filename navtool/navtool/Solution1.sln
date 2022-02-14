@@ -1,0 +1,13 @@
+Microsoft Visual Studio Solution File, Format Version 1.00
+Project("{66355F20-A65B-11D0-BFB5-00A0C91EBFA0}") = "navtool", "navtool.vjp", "{3AC94BE2-44A1-4695-88B0-7D23B0F3E40E}"
+EndProject
+Global
+	GlobalSection(LocalDeployment) = postSolution
+		StartupProject = {3AC94BE2-44A1-4695-88B0-7D23B0F3E40E}
+	EndGlobalSection
+	GlobalSection(BuildOrder) = postSolution
+		0 = {3AC94BE2-44A1-4695-88B0-7D23B0F3E40E}
+	EndGlobalSection
+	GlobalSection(DeploymentRoot) = postSolution
+	EndGlobalSection
+EndGlobal

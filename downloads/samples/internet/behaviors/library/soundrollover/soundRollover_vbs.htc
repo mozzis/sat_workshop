@@ -1,0 +1,79 @@
+<!-- ---------------------------------------------------------------------
+'
+'  Copyright 1998 Microsoft Corporation.  All Rights Reserved.
+'
+'  File:         soundRollover_vbs.htc
+'
+'  Description:  The sound rollover behavior provides and easy, 
+'                declarative way to add sound effects to web pages and
+'                html based applications.
+'
+'-------------------------------------------------------------------- -->
+
+<script language="VBScript">
+
+'------------------------------------------------------------------------
+' Create an element to play sounds if needed
+'------------------------------------------------------------------------
+
+on error resume next
+err.clear
+test = element.document.all.MSSoundControl
+if err.number <> 0 then 
+	on error goto 0
+	element.document.body.insertAdjacentHTML "beforeEnd", "<img id=MSSoundControl>"
+	element.document.all("MSSoundControl").style.width = 1
+	element.document.all("MSSoundControl").style.height = 1
+else
+	on error goto 0
+end if
+
+'------------------------------------------------------------------------
+' Attach to element events
+'------------------------------------------------------------------------
+
+element.attachEvent "onmouseover", getRef("fnOnMouseOver")
+element.attachEvent "onmousedown", getRef("fnOnMouseDown")
+
+'------------------------------------------------------------------------
+'
+'  Function:  fnOnMouseOver()
+'
+'  Synopsis:  When the mouse is over the element, play the hoverSound
+'
+'------------------------------------------------------------------------
+
+sub fnOnMouseOver()
+  on error resume next
+  err.clear
+  test = element.hoverSound
+  if err.number <> 0 then test = false else test = true
+  on error goto 0 
+  
+  if (test) then
+    element.document.all("MSSoundControl").dynsrc = element.hoverSound
+  end if
+end sub
+
+'------------------------------------------------------------------------
+'
+'  Function:  fnOnMouseDown()
+'
+'  Synopsis:  When the element is clicked, play the pressedSound
+'
+'------------------------------------------------------------------------
+
+sub fnOnMouseDown()
+  on error resume next
+  err.clear
+  test = element.pressedSound
+  if err.number <> 0 then test = false else test = true
+  on error goto 0 
+
+  if (test) then
+	Set t = element.document.all("MSSoundControl")
+    t.dynsrc = element.pressedSound
+  end if
+end sub
+
+</script>

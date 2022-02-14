@@ -1,0 +1,171 @@
+
+<html>
+<head>
+<title> ANT Search 98</title>
+</head>
+<body onLoad="focus()" background="bg_01.gif" text="555555" link="FF0000" vlink="0000FF" alink="666600" bgcolor="000000">
+
+
+<script language="javascript">
+<!----
+
+			/*
+			      Palace Multimedia Javascript © 1998
+				       www.apo.com.au
+				     palace@apo.com.au
+			*/
+
+function addplus(items) 
+   {
+   var plussed = "";
+   for (var t = 1 ; t <= items.length ; t++)
+      {
+      if (items.substring(t-1,t) == " ")
+         {  plussed+="+";  }
+      else
+         { plussed+=items.substring(t-1,t); }
+      }
+   return plussed;
+   }
+
+function dosearch(engine) 
+   {
+   var words;
+   words = document.searchforit.query.value;
+   var searchitems;
+   searchitems=addplus(words);
+   var index;
+   index=engine;
+   var site;
+   var gohere;
+
+if (index=="altavista") {site="http://altavista.digital.com/cgi-bin/query?pg=q&what=web&fmt=&q="+searchitems}
+if (index=="excite") {site="http://www.excite.com/search.gw?trace=a&search="+searchitems}
+if (index=="hotbot") {site="http://www.hotbot.com/?SW=web&SM=MC&MT="+searchitems}
+if (index=="infoseek") {site="http://guide-p.infoseek.com/Titles?qt="+searchitems}
+if (index=="looksmart") {site="http://www.looksmart.com/r_search?look=&key="+searchitems}
+if (index=="lycos") {site="http://www.lycos.com/cgi-bin/pursuit?query="+searchitems}
+if (index=="magellan") {site="http://www.mckinley.com/search.gw?search="+searchitems}
+if (index=="startingpoint") {site="http://www.stpt.com/cgi-bin/pwrsrch/altavista.cgi?query="+searchitems}
+if (index=="webcrawler") {site="http://webcrawler.com/cgi-bin/WebQuery?"+searchitems}
+if (index=="wombat") {site="http://www.webwombat.com.au/Wombat?"+searchitems}
+if (index=="yahoo") {site="http://search.yahoo.com/bin/search?p="+searchitems}
+if (notEmpty(searchitems))
+    {
+	window.open(site,"", "width=600,height=400,location,menubar,scrollbars=yes,resizable=yes");
+
+    	 }
+   }
+
+function notEmpty(word) 
+
+   {
+  		if (word == "" || word == null)
+    	{
+      	self.status="ENTER SEARCH searchitems";
+      	alert("\n Enter a keyword.");
+      	document.searchforit.query.focus();
+      	return false;
+      	}
+   		else
+      	{
+      	self.status = "SEARCHING FOR:  " + word;
+      	return true;
+      	}
+
+   }
+
+  function takemethere() {
+
+
+           if (document.searchengine.area.selectedIndex == 2) dosearch('altavista');
+          else if (document.searchengine.area.selectedIndex == 3) dosearch('excite');
+          else if (document.searchengine.area.selectedIndex == 4) dosearch('hotbot');
+          else if (document.searchengine.area.selectedIndex == 5) dosearch('infoseek');
+          else if (document.searchengine.area.selectedIndex == 6) dosearch('looksmart');
+          else if (document.searchengine.area.selectedIndex == 7) dosearch('lycos');
+          else if (document.searchengine.area.selectedIndex == 8) dosearch('magellan');
+          else if (document.searchengine.area.selectedIndex == 9) dosearch('startingpoint');
+          else if (document.searchengine.area.selectedIndex == 10) dosearch('webcrawler');
+          else if (document.searchengine.area.selectedIndex == 11) dosearch('wombat');
+          else if (document.searchengine.area.selectedIndex == 12) dosearch('yahoo');
+
+   }
+
+  function takemehere() {
+
+     if (document.searchengine.area.selectedIndex == 2) window.open("http://www.altavista.digital.com/av/content/addurl.htm","scripter");
+     else if (document.searchengine.area.selectedIndex == 3) window.open("http://www.excite.com/Info/add_url.html","scripter");
+     else if (document.searchengine.area.selectedIndex == 4) window.open("http://www.hotbot.com/addurl.html","scripter");
+     else if (document.searchengine.area.selectedIndex == 5) window.open("http://guide-p.infoseek.com/AddUrl?pg=DCaddurl.html","scripter");
+     else if (document.searchengine.area.selectedIndex == 6) window.open("http://www.looksmart.com/","scripter");
+     else if (document.searchengine.area.selectedIndex == 7) window.open("http://www.lycos.com/addasite.html","scripter");
+     else if (document.searchengine.area.selectedIndex == 8) window.open("http://www.mckinley.com/magellan/Info/addsite.html","scripter");
+     else if (document.searchengine.area.selectedIndex == 9) window.open("http://www.stpt.com/general/submit.html","scripter");
+     else if (document.searchengine.area.selectedIndex == 10) window.open("http://webcrawler.com/WebCrawler/Help/GetListed/AddURLS.html","scripter");
+     else if (document.searchengine.area.selectedIndex == 11) window.open("http://www.webwombat.com.au/wombat/register.htm","scripter");
+     else if (document.searchengine.area.selectedIndex == 12) window.open("http://www.yahoo.com","mainview");
+   }
+function getTheSelection()
+	{
+	if(document.searchengine.here.value=="search") takemethere()
+	if(document.searchengine.here.value=="list") takemehere()
+	if(document.searchengine.here.value=="") alert('Please select whether to search or list a web page')
+  }
+
+//--------->
+</script>
+
+ 
+<center>
+
+<table width=100% height=100%>
+<tr><td valign=middle>
+	<form name="searchforit">
+	<input type="text" name="query" size=20 value="Search Topic" style="background-color:333333;color:ffffff;font-family:Arial;font-size:10pt;width:150;height:22;">
+	</form>
+
+
+</td><td valign=middle>
+
+
+<FORM name="searchengine">
+
+          <SELECT NAME="area" onChange="getTheSelection()" style="background-color:333333;color:ffffff;font-family:Arial;font-size:10pt;width:150;height:20;">
+
+          <OPTION SELECTED>Search Engines
+          <OPTION>----------------
+          <OPTION>ALTAVISTA
+          <OPTION>EXCITE
+          <OPTION>HOT BOT
+          <OPTION>INFOSEEK
+          <OPTION>LOOK SMART
+          <OPTION>LYCOS
+          <OPTION>MAGELLAN
+          <OPTION>STARTING POINT
+          <OPTION>WEBCRAWLER
+          <OPTION>WOMBAT
+          <OPTION>YAHOO
+          </SELECT>
+
+<input type="button" name="search" value="GO!" onClick="getTheSelection()" style="background-color:333333;color:ffffff;font-family:Arial;font-size:10pt;width:50;height:22;">
+<font face="arial,helvetica" font size=-2>
+<input type="radio" name="whereto" value="search" onClick='document.searchengine.here.value="search"' checked> Search 
+<input type="radio" name="whereto" value="list" onClick='document.searchengine.here.value="list"'> List URL
+<input type="hidden" name="here" value="search">
+
+
+
+
+  </form>
+
+</td><td valign=top>
+
+
+<img src="linear_r.gif">
+
+</td></tr>
+</table>
+</body>
+</html>
+

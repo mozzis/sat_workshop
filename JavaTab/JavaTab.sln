@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 1.00
+Project("{66355F20-A65B-11D0-BFB5-00A0C91EBFA0}") = "JavaTab", "JavaTab.vjp", "{DEB751DB-47CE-4665-AE84-14812FA18604}"
+	ProjectSection(SourceCodeControl) = preProject
+		SccProjectName = \u0022$/JavaTab\u0022,\u0020DFDAAAAA
+		SccLocalPath = .
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(LocalDeployment) = postSolution
+		StartupProject = {DEB751DB-47CE-4665-AE84-14812FA18604}
+	EndGlobalSection
+	GlobalSection(BuildOrder) = postSolution
+		0 = {DEB751DB-47CE-4665-AE84-14812FA18604}
+	EndGlobalSection
+	GlobalSection(SourceCodeControl) = preSolution
+		SccProjectName = \u0022$/JavaTab\u0022,\u0020DFDAAAAA
+		SccLocalPath = .
+	EndGlobalSection
+	GlobalSection(DeploymentRoot) = postSolution
+		DeploymentMapTgtCanonicalName-{15DC914B-6989-4B84-BB04-11F272B42AFD} = {15DC914B-6989-4B84-BB04-11F272B42AFD}
+		DeploymentMapTgtDisplayName-{15DC914B-6989-4B84-BB04-11F272B42AFD} = Deploy to http://www.home.maynidea.com/library/jclass
+		DeploymentMapTgtTargetURL-{15DC914B-6989-4B84-BB04-11F272B42AFD} = http://www.home.maynidea.com/library/jclass
+		DeploymentMapTgtType-{15DC914B-6989-4B84-BB04-11F272B42AFD} = 1
+		DeploymentMapTgtFixup-{15DC914B-6989-4B84-BB04-11F272B42AFD} = 1
+		DeploymentMapTgtStartupProject-{15DC914B-6989-4B84-BB04-11F272B42AFD} = {DEB751DB-47CE-4665-AE84-14812FA18604}
+		DeploymentSvcCanonicalName-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713} = {D27A2CB0-F16C-11d0-AB36-00A0C90F2713}
+		DeploymentSvcDisplayName-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713} = Web Content, Controls, and Applets
+		DeploymentSvcType-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713} = 0
+		DeploymentWebComponentsSetting-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713} = 0
+		DeploymentWebComponentsPaths-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713} = ||
+		DeploymentSrcCanonicalName-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713}-{DEB751DB-47CE-4665-AE84-14812FA18604} = {DEB751DB-47CE-4665-AE84-14812FA18604}
+		DeploymentSrcDisplayName-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713}-{DEB751DB-47CE-4665-AE84-14812FA18604} = Outputs of JavaTab
+		DeploymentSrcType-{15DC914B-6989-4B84-BB04-11F272B42AFD}-{D27A2CB0-F16C-11d0-AB36-00A0C90F2713}-{DEB751DB-47CE-4665-AE84-14812FA18604} = 0
+	EndGlobalSection
+EndGlobal

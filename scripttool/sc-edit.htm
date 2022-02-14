@@ -1,0 +1,123 @@
+<html>
+<head>
+<title>ANTHILL Scripter 1.1</title>
+
+<script language="javascript">
+
+	/*
+	       Palace Multimedia © 1998
+		   www.apo.com.au
+	*/
+
+
+
+window.name="scripter"
+
+
+var nl = getNewLine()
+
+function getNewLine() {
+	var agent = navigator.userAgent
+
+	if (agent.indexOf("Win") >= 0)
+		return "\r\n"
+	else
+		if (agent.indexOf("Mac") >= 0)
+			return "\r"
+
+  	return "\n"
+
+}
+
+	function launchToolbar()
+ 	{
+	noNn = open("sc-tags.htm","up")
+	if(noNn != null && noNn.opener == null)
+	noNn.opener = self;
+	}
+	function viewPage()
+	{
+	view=open("","")
+	view.document.open()
+	view.document.write(document.forms[0].elements[0].value)
+	view.document.close()
+	}
+
+	function printPage()
+	{
+	view=open("","")
+	view.document.open()
+	view.document.write('<html><head><title>Source</title><body><xmp>')
+	view.document.write(document.forms[0].elements[0].value)
+	view.document.write('</xmp></body></html>')
+	view.document.close()
+	}
+
+function statusName()
+	{
+	if(!document.all){
+	document.forms[0].body.value=nl+nl+nl+nl+nl+nl+nl+
+	'                        Palace Multimedia Software'+nl+
+	'                               www.apo.com.au'
+		} else
+	if(document.all){
+	document.forms[0].body.value=nl+nl+nl+nl+nl+nl+nl+
+	'                                                        Palace Multimedia Software'+nl+
+	'                                                               www.apo.com.au'
+		}
+	}
+
+function clScreen()
+	{
+	document.forms[0].body.value=''
+  }
+
+</script>
+
+</head>
+
+<body onLoad="launchToolbar();statusName()" text="cccccc" link="ff0000" vlink="ff0000" alink="0000ff" bgcolor="000000">
+
+<CENTER>
+<table width=100% height=100% align=center><tr><td valign=middle>
+<font face="arial" font size=-2>
+<CENTER>
+<form>
+<table><tr><td valign=top>
+
+&nbsp &nbsp
+<a href="javascript:history.back()" onmouseover="window.status='Back In History ';return true"><img src="previous.gif" width=19 height=10 border=0></a>
+
+<a href="javascript:viewPage()" onmouseover="window.status='View';return true"><img src="btview.gif" width=48 height=10 border=0></a>
+
+<a href="javascript:printPage()" onmouseover="window.status='Print Code';return true"><img src="btprint.gif" width=48 height=10 border=0></a>
+
+<a href="javascript:clScreen()" onmouseover="window.status='Clear Screen ';return true"><img src="btreset.gif" border=0></a>
+
+<a href="javascript:history.forward()" onmouseover="window.status='Forward In History ';return true"><img src="forward.gif" width=19 height=10 border=0></a>
+&nbsp &nbsp
+ <font face="arial, helvetica"> <font size=+2>
+<B>A N T H I L L</B>
+<font size=-1>
+ &nbsp S c r i p t e r &nbsp 1 . 1</left><right>
+
+<tr><td>
+
+
+<table><tr><td><textarea name="body" rows=16 cols=70 style="background-color:cccccc;color:000000;font-family:Arial;font-size:10pt;width:590"></textarea>
+
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+</td></tr>
+</table>
+
+
+</form>
+</body>
+
+
+
+</html>

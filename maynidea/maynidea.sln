@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 1.00
+Project("{BDD4A1A1-7A1F-11D0-AC13-00A0C91E29D5}") = "www.home.maynidea.com/", "maynidea.vip", "{8CF77C3E-DB25-4034-A151-83D406A3B203}"
+	ProjectSection(SourceCodeControl) = preProject
+		SccAuxPath = 
+		WebServer = http://www.home.maynidea.com
+		WebName = /
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(LocalDeployment) = postSolution
+		StartupProject = {8CF77C3E-DB25-4034-A151-83D406A3B203}
+	EndGlobalSection
+	GlobalSection(BuildOrder) = postSolution
+		0 = {8CF77C3E-DB25-4034-A151-83D406A3B203}
+	EndGlobalSection
+	GlobalSection(SourceCodeControl) = preSolution
+		SccProjectName = \u0022$/home.maynidea\u0022,\u0020RFDAAAAA
+		SccLocalPath = .
+	EndGlobalSection
+	GlobalSection(DeploymentRoot) = postSolution
+	EndGlobalSection
+EndGlobal
